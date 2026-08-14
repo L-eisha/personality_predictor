@@ -11,7 +11,7 @@ nltk.download("stopwords", quiet=True)
 nltk.download("punkt_tab", quiet=True)
 
 st.set_page_config(
-    page_title="Personality Predictor | Leisha Choudhary",
+    page_title="Personality Predictor | HEX Softwares",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -347,7 +347,7 @@ def bar_chart(scores):
 # ── Hero ──
 st.markdown("""
 <div class="hero-section">
-    <div class="hero-badge">By Leisha Choudhary &middot; AI/ML &amp; Data Science</div>
+    <div class="hero-badge">AI-Powered Analysis</div>
     <div class="hero-title">
         <span class="gtext">Personality Predictor</span><br>from Your CV
     </div>
@@ -552,4 +552,4 @@ if analyze_btn:
             use_container_width=True
         )
 
-st.markdown('<div class="footer">Built by <a href="https://github.com/L-eisha" style="color:var(--pur);text-decoration:none">Leisha Choudhary</a> &middot; AI/ML &amp; Data Science &middot; Powered by NLP & Big Five Model</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Built with &hearts; by HEX Softwares &middot; Powered by NLP & Big Five Model</div>', unsafe_allow_html=True)

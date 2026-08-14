@@ -1,7 +1,4 @@
 pdfminer.six
 nltk
-scikit-learn
-numpy
 streamlit
 plotly
- 

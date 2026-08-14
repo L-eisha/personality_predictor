@@ -1,70 +1,93 @@
-#  Personality Predictor
+# Personality Predictor
 
-A Python-based web application that predicts personality traits using machine learning. 
+An NLP-powered web application that predicts Big Five (OCEAN) personality traits from CVs and resumes.
 
----
+## Overview
 
-## 📋 Overview
+Personality Predictor analyzes the language in your CV or resume to score your personality across the Big Five dimensions:
 
-Personality Predictor is a app that analyzes user inputs and predicts personality types based on trained models. Whether you're exploring the Big Five traits / (OCEAN) , this tool gives instant, data-driven personality insights.
+- **Openness** — creativity, curiosity, intellectual exploration
+- **Conscientiousness** — organization, reliability, attention to detail
+- **Extraversion** — leadership, communication, social confidence
+- **Agreeableness** — empathy, cooperation, supportiveness
+- **Neuroticism (Stability)** — emotional resilience, composure under pressure
 
----
+The tool uses weighted keyword matching with word-boundary detection and sigmoid normalization to produce reliable trait scores from 5 to 95.
 
-## 🗂️ Project Structure
+## Features
+
+- **PDF and TXT upload** — extract text from uploaded CVs
+- **Text paste** — paste CV content directly
+- **Demo CV** — test with a built-in sample resume
+- **Weighted keyword analysis** — 50+ keywords per trait with importance weights (1.0 / 1.5 / 2.0)
+- **Word-boundary matching** — prevents false positives from substring matches
+- **Sigmoid scoring** — smooth normalization for realistic score distribution
+- **Confidence indicator** — rates analysis reliability based on text length and score spread
+- **Career recommendations** — suggests 5 career paths based on dominant trait
+- **CV section detection** — automatically identifies Summary, Experience, Education, Skills, and more
+- **Interactive charts** — radar chart and horizontal bar chart (Plotly)
+- **JSON report download** — export full analysis results
+- **Dark theme UI** — glass-morphism design with animations
+
+## Project Structure
 
 ```
 personality_predictor/
-├── app.py                   # Flask application entry point
-├── personality_predictor.py # Core ML model and prediction logic
-├── requirements.txt         # Python dependencies
-└── .gitignore
+├── app.py                    # Streamlit web application
+├── personality_predictor.py  # CLI version for terminal use
+├── requirements.txt          # Python dependencies
+├── .gitignore
+└── README.md
 ```
 
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
 - Python 3.8+
-- pip
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/L-eisha/personality_predictor.git
-   cd personality_predictor
-   ```
+```bash
+git clone https://github.com/L-eisha/personality_predictor.git
+cd personality_predictor
+pip install -r requirements.txt
+```
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Run the Web App
 
-3. **Run the app**
-   ```bash
-   python app.py
-   ```
+```bash
+streamlit run app.py
+```
 
-4. Open your browser and navigate to `http://localhost:5000`
+### Run from Command Line
 
----
+```bash
+python personality_predictor.py path/to/resume.pdf
+```
 
-## 🛠️ Tech Stack
+Run without arguments for demo mode:
 
-- **Python** — Core language
-- **scikit-learn / pandas / numpy** — Machine learning & data handling
-- **Streamlit** — Frontend interface
+```bash
+python personality_predictor.py
+```
 
----
+## Tech Stack
 
-## 📄 License
+- **Streamlit** — web interface
+- **NLTK** — tokenization and stopword removal
+- **pdfminer.six** — PDF text extraction
+- **Plotly** — interactive data visualization
 
-This project is open source. Feel free to fork, modify, and build on it!
+## How It Works
 
----
+1. **Text extraction** — reads PDF or TXT content
+2. **Preprocessing** — lowercases, removes special characters, tokenizes, filters stopwords
+3. **Trait scoring** — matches keywords using regex word boundaries, applies importance weights, normalizes with sigmoid function
+4. **Confidence** — evaluates reliability based on word count and trait score spread
+5. **Career mapping** — recommends careers aligned with the dominant personality trait
+6. **Report** — displays results with charts, cards, and downloadable JSON
 
-## 👤 Author
+## Author
 
 **Leisha Choudhary** — [@L-eisha](https://github.com/L-eisha)

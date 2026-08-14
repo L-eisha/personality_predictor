@@ -91,3 +91,9 @@ python personality_predictor.py
 ## Author
 
 **Leisha Choudhary** — [@L-eisha](https://github.com/L-eisha)
+
+B.Tech CS (Data Science) | IIT Madras BS in Data Science | AI/ML Enthusiast
+
+- Email: leishachoudhary121@gmail.com
+- LinkedIn: [leisha-choudhary-22b89a325](https://linkedin.com/in/leisha-choudhary-22b89a325)
+- GitHub: [L-eisha](https://github.com/L-eisha)

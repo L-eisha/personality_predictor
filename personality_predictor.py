@@ -356,15 +356,16 @@ if __name__ == "__main__":
         print("\nUsage: python personality_predictor.py <path_to_cv.pdf>")
         print("Running in DEMO MODE with sample CV text...\n")
         sample_cv = """
-        John Doe - Software Engineer
-        Skills: Python, Machine Learning, Data Analysis, Communication, Leadership
-        Experience: Led a team of 5 engineers to deliver a creative AI solution on time.
-        Managed project deadlines, coordinated with stakeholders, mentored junior developers.
-        Volunteered at community coding bootcamp. Calm under pressure, detail-oriented.
-        Organized sprint planning, documented technical specs thoroughly.
-        Explored novel deep learning architectures and published research findings.
-        Resilient and adaptable, confident and focused. Innovative visionary thinker.
-        Collaborated across teams, negotiated with clients, presented at conferences.
+        Leisha Choudhary - AI/ML and Data Science
+        Summary: B.Tech student specializing in Computer Science with a strong passion for AI/ML.
+        Experienced in building and deploying real-world AI applications using Python and Streamlit.
+        Skills: Python, Machine Learning, NLP, Data Analysis, Streamlit, REST APIs, SQL, Communication
+        Experience: AI Researcher Intern at Be Bright 1, working on Generative AI and Data Science research.
+        Head of CodeGeeks Society, leading technical activities, mentoring junior members, coordinating events.
+        Managed society operations with organized planning and collaborative team leadership.
+        Built innovative NLP-based personality prediction system with creative design approach.
+        Developed responsive frontend websites with meticulous attention to detail and quality.
+        Calm and resilient under deadline pressure, adaptable to fast-paced environments.
         """
         with open("sample_cv.txt", "w") as f:
             f.write(sample_cv)

@@ -11,7 +11,7 @@ nltk.download("stopwords", quiet=True)
 nltk.download("punkt_tab", quiet=True)
 
 st.set_page_config(
-    page_title="Personality Predictor | HEX Softwares",
+    page_title="Personality Predictor | Leisha Choudhary",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -347,13 +347,13 @@ def bar_chart(scores):
 # ── Hero ──
 st.markdown("""
 <div class="hero-section">
-    <div class="hero-badge">AI-Powered Analysis</div>
+    <div class="hero-badge">By Leisha Choudhary &middot; AI/ML &amp; Data Science</div>
     <div class="hero-title">
         <span class="gtext">Personality Predictor</span><br>from Your CV
     </div>
     <div class="hero-sub">
-        Upload your CV or paste text to receive a Big Five personality analysis
-        with career recommendations, powered by NLP.
+        Upload your CV or paste text to discover your Big Five (OCEAN) personality traits.
+        Built with NLP keyword analysis, sigmoid scoring, and career recommendations.
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -368,43 +368,53 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 DEMO_CV = """SUMMARY
-Creative and innovative software engineer with a visionary approach. Curious and open-minded professional who thrives in collaborative, fast-paced environments. Known for being organized, meticulous, and detail-oriented with a disciplined work ethic.
+Second-year B.Tech student specializing in Computer Science (Data Science) with a strong passion for AI/ML. Pursuing a BS in Data Science from IIT Madras. Experienced in building and deploying real-world AI applications using Python, APIs, and Streamlit. Active Kaggle participant and hands-on with Claude AI API. Contributing to the tech community as Head of CodeGeeks Society at GTB4CEC.
 
-EXPERIENCE
+INTERNSHIP EXPERIENCE
 
-Senior Software Engineer | TechCorp Innovation Labs | 2020 - Present
-- Led a dynamic team of 12 engineers, demonstrating strong leadership and persuasive communication
-- Pioneered an innovative machine learning pipeline, showcasing creative research capabilities
-- Managed project timelines with thorough planning, structured documentation, and reliable delivery
-- Mentored junior developers with empathetic, supportive, and patient guidance
-- Maintained composure and resilience during high-pressure product launches and crisis situations
-- Drove stakeholder engagement through enthusiastic presentations and confident public-speaking
+AI Researcher Intern | Be Bright 1 | May 2026 - Present
+- Working on applied Generative AI and Data Science research with contributions to frontend development
+- Conducting research and experimentation on Generative AI models and techniques
+- Performing data science research including data analysis, model experimentation, and evaluation
+- Contributing to frontend development, building interfaces to support research outcomes
 
-Software Developer | DataDriven Solutions | 2017 - 2020
-- Designed and prototyped novel data visualization tools with an artistic, intuitive interface
-- Implemented systematic quality assurance processes with rigorous compliance standards
-- Built cooperative partnerships across departments through diplomatic, considerate collaboration
-- Handled demanding deadlines with steady prioritization and calm multitasking
-- Championed community outreach programs, volunteering as a compassionate technology mentor
+WORK EXPERIENCE
+
+Head | CodeGeeks Society - GTB4CEC | 2025 - Present
+- Leading and coordinating all technical activities including coding events and hackathons
+- Mentoring junior members and driving technology learning initiatives among students
+- Managing society operations, delegating responsibilities, and ensuring smooth execution of events
+
+Event Management Lead | CodeGeeks Society - GTB4CEC | 2025
+- Planned and executed technical and non-technical events with end-to-end logistics coordination
+- Collaborated with cross-functional teams to ensure successful delivery of society events
+- Handled registrations, scheduling, and on-ground management for hackathons and competitions
+
+PROJECTS
+
+Be Bright 1 Website | HTML, CSS, JavaScript, Deployment
+- Developed the frontend for the Be Bright 1 company website with responsive layout and clean UI
+- Handled end-to-end deployment, taking the site live on a custom domain
+
+Personality Prediction through CV | Python, NLP, REST API, Streamlit
+- Designed an NLP-based system that parses and analyzes CV text to predict personality traits
+- Leveraged AI APIs for language understanding with a user-friendly Streamlit dashboard
+
+Gender & Age Prediction Model | Python, ML, Streamlit
+- Developed a machine learning model to predict gender and age from input features
+- Deployed as an interactive web application using Streamlit
 
 EDUCATION
-Master of Science in Computer Science | Stanford University | 2017
-Bachelor of Science in Software Engineering | MIT | 2015
-
-SKILLS
-Python, JavaScript, Machine Learning, Data Analysis, Strategic Planning, Agile Methodology,
-Public Speaking, Team Leadership, Conflict Resolution, Risk Management, Brainstorming,
-Prototyping, Documentation, Quality Assurance, Stakeholder Engagement
+Guru Tegh Bahadur 4th Centenary Engineering College | B.Tech CS (Data Science) | 2024-2028
+IIT Madras | BS in Data Science and Applications | 2025-2028
 
 CERTIFICATIONS
-- AWS Certified Solutions Architect
-- Certified ScrumMaster (CSM)
-- Google Professional Data Engineer
+- Foundation in Data Science - IIT Madras
 
-AWARDS
-- Innovation Champion Award, TechCorp (2022)
-- Humanitarian Technology Grant Recipient (2021)
-- Outstanding Volunteer Service Award (2019)
+SKILLS
+Python, C, C++, Java, Machine Learning, NLP, Data Preprocessing, Statistical Analysis,
+Streamlit, REST APIs, SQL, Kaggle, Data Analysis, Data Visualization, Microsoft Excel,
+Collaboration, Problem-solving, Communication, Time Management, Team Management, Event Management
 """
 
 _, center_col, _ = st.columns([1, 2, 1])
@@ -542,4 +552,4 @@ if analyze_btn:
             use_container_width=True
         )
 
-st.markdown('<div class="footer">Built with &hearts; by HEX Softwares &middot; Powered by NLP & Big Five Model</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Built by <a href="https://github.com/L-eisha" style="color:var(--pur);text-decoration:none">Leisha Choudhary</a> &middot; AI/ML &amp; Data Science &middot; Powered by NLP & Big Five Model</div>', unsafe_allow_html=True)

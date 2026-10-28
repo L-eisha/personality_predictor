@@ -1,5 +1,5 @@
 import streamlit as st
-import os, re, json, time, math, tempfile
+import os, re, json, math, tempfile, html
 import nltk
 import pdfminer.high_level
 from nltk.tokenize import word_tokenize
@@ -11,7 +11,7 @@ nltk.download("stopwords", quiet=True)
 nltk.download("punkt_tab", quiet=True)
 
 st.set_page_config(
-    page_title="Personality Predictor | HEX Softwares",
+    page_title="Personality Predictor",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -192,11 +192,11 @@ TRAIT_ICONS = {
 }
 
 SUMMARIES = {
-    "Openness": "Highly creative and open to new experiences. Thrives in environments encouraging innovation and unconventional thinking.",
-    "Conscientiousness": "Exceptionally organized and detail-oriented. Excels in structured environments with clear goals and quality standards.",
-    "Extraversion": "Natural leader and communicator. Energized by social interaction, team collaboration, and public-facing roles.",
-    "Agreeableness": "Empathetic and cooperative team player. Values harmony, trust, and supportive relationships in the workplace.",
-    "Neuroticism (Stability)": "Emotionally stable and resilient under pressure. Maintains composure in high-stress situations and adapts well to change."
+    "Openness": "The strongest keyword signal is associated with creativity and exploration; it does not establish a personality trait or role fit.",
+    "Conscientiousness": "The strongest keyword signal is associated with organization and follow-through; it does not establish a personality trait or role fit.",
+    "Extraversion": "The strongest keyword signal is associated with communication and collaboration; it does not establish a personality trait or role fit.",
+    "Agreeableness": "The strongest keyword signal is associated with support and cooperation; it does not establish a personality trait or role fit.",
+    "Neuroticism (Stability)": "The strongest keyword signal includes terms related to stress, resilience, and coping; it does not establish emotional stability."
 }
 
 
@@ -244,9 +244,9 @@ def score_traits(text):
 def compute_confidence(scores, word_count):
     spread = max(scores.values()) - min(scores.values())
     if word_count >= 200 and spread >= 20:
-        return ("High", "Strong signal from a detailed CV")
+        return ("High", "More text available; results remain exploratory")
     elif word_count >= 100 and spread >= 10:
-        return ("Good", "Adequate data for reliable prediction")
+        return ("Good", "Moderate text volume; results remain exploratory")
     elif word_count >= 50:
         return ("Moderate", "Limited text; results are approximate")
     else:
@@ -329,7 +329,7 @@ def bar_chart(scores):
     fig = go.Figure(data=go.Bar(
         y=traits, x=vals, orientation='h',
         marker=dict(color=colors),
-        text=[f"{v}%" for v in vals], textposition='outside',
+        text=[str(v) for v in vals], textposition='outside',
         textfont=dict(family='Fira Code', size=12, color='#e8e8ed')
     ))
     fig.update_layout(
@@ -352,8 +352,8 @@ st.markdown("""
         <span class="gtext">Personality Predictor</span><br>from Your CV
     </div>
     <div class="hero-sub">
-        Upload your CV or paste text to discover your Big Five (OCEAN) personality traits.
-        Built with NLP keyword analysis, sigmoid scoring, and career recommendations.
+        Explore CV keyword patterns associated with the Big Five (OCEAN) traits.
+        These signals are not a personality test or a definitive assessment.
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -428,10 +428,14 @@ with center_col:
                                    placeholder="Paste your CV or resume text here...",
                                    label_visibility="collapsed")
     analyze_btn = st.button("Analyze Personality", use_container_width=True)
+    st.caption("Scores and career suggestions are exploratory keyword signals, not validated assessments or hiring recommendations.")
 
 # ── Analysis ──
 if analyze_btn:
     raw_text = None
+    analyzed_filename = "Demo CV" if use_demo else (
+        os.path.basename(uploaded_file.name) if uploaded_file is not None else "Pasted text"
+    )
     if use_demo:
         raw_text = DEMO_CV
     elif uploaded_file is not None:
@@ -447,12 +451,9 @@ if analyze_btn:
     else:
         with st.status("Analyzing your CV...", expanded=True) as status:
             st.write("Extracting text content...")
-            time.sleep(0.5)
             st.write("Preprocessing and tokenizing...")
-            time.sleep(0.5)
             scores = score_traits(raw_text)
             st.write("Scoring Big Five personality traits...")
-            time.sleep(0.5)
             word_count = len(raw_text.split())
             dominant = max(scores, key=scores.get)
             top_score = scores[dominant]
@@ -460,7 +461,6 @@ if analyze_btn:
             careers = get_career_recommendations(scores)
             sections = extract_sections(raw_text)
             st.write("Generating recommendations...")
-            time.sleep(0.3)
             status.update(label="Analysis complete!", state="complete", expanded=False)
 
         st.markdown("---")
@@ -474,14 +474,22 @@ if analyze_btn:
         with c2:
             st.markdown('<div class="stat-box"><div class="stat-val">5</div><div class="stat-lbl">Traits Scored</div></div>', unsafe_allow_html=True)
         with c3:
-            st.markdown(f'<div class="stat-box"><div class="stat-val">{top_score}%</div><div class="stat-lbl">Top Score</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-box"><div class="stat-val">{top_score}</div><div class="stat-lbl">Top Signal</div></div>', unsafe_allow_html=True)
         with c4:
             conf_cls = confidence[0].lower()
             st.markdown(f'<div class="stat-box"><div class="conf-lvl {conf_cls}">{confidence[0]}</div><div class="conf-dtl">{confidence[1]}</div></div>', unsafe_allow_html=True)
 
         st.write("")
 
+        st.info(
+            "Scores are weighted keyword signals scaled for comparison within this CV. "
+            "They are not probabilities, validated personality measurements, or evidence "
+            "of a candidate's suitability. Neuroticism is the Big Five trait; emotional "
+            "stability is its opposite pole."
+        )
+
         st.markdown('<div style="text-align:center"><div class="slbl">Visualization</div><div class="sttl">Trait Profile</div></div>', unsafe_allow_html=True)
+        st.caption("Scaled keyword signal for comparison within this CV—not a percentage or probability.")
         st.write("")
 
         v1, v2 = st.columns(2)
@@ -505,12 +513,17 @@ if analyze_btn:
             icon = TRAIT_ICONS[trait]
             level = score_to_label(score)
             with tcols[i]:
-                html = f'<div class="tcard"><div class="thdr"><div class="tico" style="background:{color}15">{icon}</div><div class="tscr" style="color:{color}">{score}%</div></div><div class="tnam">{trait}</div><div class="tbar-bg"><div class="tbar-fill" style="width:{score}%;background:{color}"></div></div><div class="tlvl" style="color:{color}">{level}</div></div>'
-                st.markdown(html, unsafe_allow_html=True)
+                display_trait = (
+                    "Neuroticism (emotional stability is the opposite pole)"
+                    if trait == "Neuroticism (Stability)" else trait
+                )
+                trait_card_html = f'<div class="tcard"><div class="thdr"><div class="tico" style="background:{color}15">{icon}</div><div class="tscr" style="color:{color}">{score}</div></div><div class="tnam">{display_trait}</div><div class="tbar-bg"><div class="tbar-fill" style="width:{score}%;background:{color}"></div></div><div class="tlvl" style="color:{color}">{level}</div></div>'
+                st.markdown(trait_card_html, unsafe_allow_html=True)
 
         st.write("")
 
-        dom_html = f'<div class="dom-card"><div class="dom-lbl">Dominant Trait</div><div class="dom-trait">{dominant}</div><div class="dom-desc">{SUMMARIES[dominant]}</div></div>'
+        display_dominant = "Neuroticism" if dominant == "Neuroticism (Stability)" else dominant
+        dom_html = f'<div class="dom-card"><div class="dom-lbl">Strongest Keyword Signal</div><div class="dom-trait">{display_dominant}</div><div class="dom-desc">{SUMMARIES[dominant]}</div></div>'
         st.markdown(dom_html, unsafe_allow_html=True)
 
         st.write("")
@@ -530,19 +543,23 @@ if analyze_btn:
             st.markdown('<div style="text-align:center"><div class="slbl">CV Structure</div><div class="sttl">Detected Sections</div></div>', unsafe_allow_html=True)
             st.write("")
             for sn, sc in sections.items():
-                prev = sc[:300] + ("..." if len(sc) > 300 else "")
-                st.markdown(f'<div class="sp"><div class="sp-t">{sn}</div><div class="sp-c">{prev}</div></div>', unsafe_allow_html=True)
+                prev = html.escape(sc[:300] + ("..." if len(sc) > 300 else ""))
+                safe_name = html.escape(sn)
+                st.markdown(f'<div class="sp"><div class="sp-t">{safe_name}</div><div class="sp-c">{prev}</div></div>', unsafe_allow_html=True)
 
         st.write("")
 
         report = {
+            "file": analyzed_filename,
             "scores": scores,
             "dominant_trait": dominant,
             "summary": SUMMARIES[dominant],
             "confidence": {"level": confidence[0], "detail": confidence[1]},
             "career_recommendations": careers,
             "sections_detected": list(sections.keys()) if sections else [],
-            "word_count": word_count
+            "word_count": word_count,
+            "analysis_method": "Weighted CV keyword signals; scores are scaled for comparison and are not probabilities.",
+            "disclaimer": "Exploratory text signals only; not a validated personality test or hiring recommendation."
         }
         st.download_button(
             label="Download Full Report (JSON)",
@@ -552,4 +569,4 @@ if analyze_btn:
             use_container_width=True
         )
 
-st.markdown('<div class="footer">Built with &hearts; by HEX Softwares &middot; Powered by NLP & Big Five Model</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Powered by NLP &amp; Big Five Model</div>', unsafe_allow_html=True)
